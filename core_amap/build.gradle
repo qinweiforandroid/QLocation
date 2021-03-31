@@ -31,7 +31,7 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.amap.api:location:3.6.1'
+    api 'com.amap.api:location:3.6.1'
     api 'com.qw.location:core:0.0.1-alpha'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

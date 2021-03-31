@@ -15,7 +15,7 @@ public class LocationClientProxy implements ILocationClient {
     }
 
     @Override
-    public void setLocationListener(QLocationListener listener) {
+    public void setLocationListener(LocationListener listener) {
         location.setLocationListener(listener);
     }
 

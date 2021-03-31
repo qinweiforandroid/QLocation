@@ -6,16 +6,16 @@ import androidx.annotation.NonNull;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.qw.location.core.AbsQLocationClient;
-import com.qw.location.core.QLocation;
-import com.qw.location.core.QLocationListener;
+import com.qw.location.core.AbsLocationClient;
+import com.qw.location.core.Location;
+import com.qw.location.core.LocationListener;
 
 
 /**
  * Created by qinwei on 3/6/21 9:00 PM
  * email: qinwei_it@163.com
  */
-public class GDLocationClient extends AbsQLocationClient {
+public class GDLocationClient extends AbsLocationClient {
     private AMapLocationClient mLocationClient;
 
     public GDLocationClient(@NonNull Context context) {
@@ -24,9 +24,9 @@ public class GDLocationClient extends AbsQLocationClient {
     }
 
     @Override
-    public void setLocationListener(QLocationListener listener) {
+    public void setLocationListener(LocationListener listener) {
         mLocationClient.setLocationListener(aMapLocation -> {
-            QLocation location = new QLocation();
+            Location location = new Location();
             if (aMapLocation.getErrorCode() == 0) {
                 location.latitude = aMapLocation.getLatitude();
                 location.longitude = aMapLocation.getLongitude();

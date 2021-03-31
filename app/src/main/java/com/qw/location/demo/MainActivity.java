@@ -3,6 +3,7 @@ package com.qw.location.demo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,9 +12,9 @@ import com.qw.framework.permission.OnPermissionCallback;
 import com.qw.framework.permission.PermissionHelper;
 import com.qw.framework.permission.PermissionScope;
 import com.qw.location.amap.GDLocationClient;
-import com.qw.location.core.QLocation;
+import com.qw.location.core.Location;
 import com.qw.location.core.LocationClientProxy;
-import com.qw.location.core.QLocationListener;
+import com.qw.location.core.LocationListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -43,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements OnPermissionCallb
 
     private void initLocation() {
         locationClient = LocationClientProxy.create(new GDLocationClient(this));
-        locationClient.setLocationListener(new QLocationListener() {
+        locationClient.setLocationListener(new LocationListener() {
             @Override
-            public void onLocationChanged(QLocation location) {
+            public void onLocationChanged(Location location) {
                 mLocationInfoLabel.setText(location.toString());
             }
         });
