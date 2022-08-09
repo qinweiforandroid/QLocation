@@ -1,24 +1,24 @@
 package com.qw.location.demo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.qw.framework.permission.OnPermissionCallback;
-import com.qw.framework.permission.PermissionHelper;
-import com.qw.framework.permission.PermissionScope;
 import com.qw.location.amap.GDLocationClient;
 import com.qw.location.core.Location;
 import com.qw.location.core.LocationClientProxy;
 import com.qw.location.core.LocationListener;
+import com.qw.permission.OnPermissionsResultListener;
+import com.qw.permission.Permission;
+import com.qw.permission.PermissionResult;
 
-import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity implements OnPermissionCallback {
+public class MainActivity extends AppCompatActivity {
 
     private LocationClientProxy locationClient;
     private TextView mLocationInfoLabel;
@@ -31,10 +31,29 @@ public class MainActivity extends AppCompatActivity implements OnPermissionCallb
         findViewById(R.id.mLocationBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PermissionHelper.INSTANCE.requestPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION);
+                requestLocation();
             }
         });
         initLocation();
+    }
+
+    private void requestLocation() {
+        Permission.Companion.init(this)
+                .permission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .setOnPermissionsResultListener(new OnPermissionsResultListener() {
+
+                    @Override
+                    public void onShowRequestPermissionRationale(@NonNull String s) {
+
+                    }
+
+                    @Override
+                    public void onRequestPermissionsResult(@NonNull PermissionResult permissionResult) {
+                        if (permissionResult.isGrant()) {
+                            startLocation();
+                        }
+                    }
+                }).request();
     }
 
     private void startLocation() {
@@ -62,28 +81,5 @@ public class MainActivity extends AppCompatActivity implements OnPermissionCallb
     protected void onDestroy() {
         super.onDestroy();
         locationClient.onDestroy();
-    }
-
-    @Override
-    public void onPermissionDenied(@NotNull String s, @NotNull PermissionScope permissionScope) {
-        permissionScope.setTitle("提示");
-        permissionScope.setMessage("需要相机权限");
-        permissionScope.setLeftText("取消");
-        permissionScope.setRightText("申请");
-        permissionScope.show();
-    }
-
-    @Override
-    public void onPermissionGranted(@NotNull String s) {
-        startLocation();
-    }
-
-    @Override
-    public void onRequestPermissionRationale(@NotNull String s, @NotNull PermissionScope permissionScope) {
-        permissionScope.setTitle("提示");
-        permissionScope.setMessage("需要相机权限");
-        permissionScope.setLeftText("取消");
-        permissionScope.setRightText("设置");
-        permissionScope.show();
     }
 }

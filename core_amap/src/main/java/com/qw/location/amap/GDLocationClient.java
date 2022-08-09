@@ -20,7 +20,11 @@ public class GDLocationClient extends AbsLocationClient {
 
     public GDLocationClient(@NonNull Context context) {
         super(context);
-        mLocationClient = new AMapLocationClient(context.getApplicationContext());
+        try {
+            mLocationClient = new AMapLocationClient(context.getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
