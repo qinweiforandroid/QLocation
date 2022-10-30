@@ -1,18 +1,18 @@
 package com.qw.location.demo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.qw.location.amap.GDLocationClient;
-import com.qw.location.core.Location;
-import com.qw.location.core.LocationClientProxy;
-import com.qw.location.core.LocationListener;
+import com.qw.location.core.LocationClient;
+import com.qw.location.core.LocOption;
 import com.qw.permission.OnPermissionsResultListener;
 import com.qw.permission.Permission;
 import com.qw.permission.PermissionResult;
@@ -20,7 +20,7 @@ import com.qw.permission.PermissionResult;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LocationClientProxy locationClient;
+    private LocationClient locationClient;
     private TextView mLocationInfoLabel;
 
     @Override
@@ -38,13 +38,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestLocation() {
+        String[] permissions;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissions = new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            };
+        } else {
+            permissions = new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            };
+        }
         Permission.Companion.init(this)
-                .permission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .permissions(permissions)
                 .setOnPermissionsResultListener(new OnPermissionsResultListener() {
 
                     @Override
                     public void onShowRequestPermissionRationale(@NonNull String s) {
-
+                        Log.d("qinwei", "onShowRequestPermissionRationale " + s);
                     }
 
                     @Override
@@ -58,17 +68,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void startLocation() {
         mLocationInfoLabel.setText("定位中...");
-        locationClient.startLocation();
+        locationClient.startLocation(LocOption.genOnceOption());
     }
 
     private void initLocation() {
-        locationClient = LocationClientProxy.create(new GDLocationClient(this));
-        locationClient.setLocationListener(new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                mLocationInfoLabel.setText(location.toString());
-            }
-        });
+        locationClient = LocationClient.create(new GDLocationClient(this));
+        locationClient.setLocationListener(location ->
+                mLocationInfoLabel.setText(location.toString()));
     }
 
     @Override

@@ -13,5 +13,6 @@ public abstract class AbsLocationClient implements ILocationClient {
 
     public AbsLocationClient(@NonNull Context context) {
         this.context = context.getApplicationContext();
+        agreePrivacy();
     }
 }

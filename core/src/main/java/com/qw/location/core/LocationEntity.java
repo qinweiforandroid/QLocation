@@ -4,72 +4,126 @@ package com.qw.location.core;
  * Created by qinwei on 3/6/21 9:06 PM
  * email: qinwei_it@163.com
  */
-public class Location {
-    public int code;
-
-    public String msg;
+public class LocationEntity {
+    private static final int STATUS_SUCCESS = 395;
+    private static final int STATUS_FAIL = 972;
+    private static final int STATUS_ING = 928;
+    private int status = STATUS_ING;
+    private int code = 0;
+    private String msg;
 
     /**
      * 获取纬度
      */
-    public double latitude;
+    private double latitude;
 
     /**
      * 获取经度
      */
-    public double longitude;
+    private double longitude;
 
     /**
      * 获取精度信息
      */
-    public float accuracy;
+    private float accuracy;
 
     /**
      * 国家信息
      */
-    public String country;
+    private String country;
 
     /**
      * 省信息
      */
-    public String province;
+    private String province;
 
     /**
      * 城市信息
      */
-    public String city;
+    private String city;
 
     /**
      * 城区信息
      */
-    public String district;
+    private String district;
 
     /**
      * 街道信息
      */
-    public String street;
+    private String street;
     /**
      * 街道门牌号信息
      */
-    public String streetNum;
+    private String streetNum;
 
     /**
      * 城市编码
      */
-    public String cityCode;
+    private String cityCode;
     /**
      * 地区编码
      */
-    public String adCode;
+    private String adCode;
     /**
      * 地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
      */
-    public String address;
-    public long time;
+    private String address;
+    private long time;
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
-    public boolean success() {
-        return code == 0;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setStreetNum(String streetNum) {
+        this.streetNum = streetNum;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    public void setAdCode(String adCode) {
+        this.adCode = adCode;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public boolean isSuccessful() {
+        return status == STATUS_SUCCESS;
     }
 
     public int getCode() {
@@ -151,6 +205,16 @@ public class Location {
                 ", address='" + address + '\'' +
                 ", time=" + time +
                 '}';
+    }
+
+    public void success() {
+        status = STATUS_SUCCESS;
+    }
+
+    public void fail(int errorCode, String errorInfo) {
+        this.code = errorCode;
+        this.msg = errorInfo;
+        this.status = STATUS_FAIL;
     }
 
     //amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表

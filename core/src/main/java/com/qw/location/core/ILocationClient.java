@@ -7,9 +7,11 @@ package com.qw.location.core;
  */
 public interface ILocationClient {
 
-    void setLocationListener(LocationListener listener);
+    void agreePrivacy();
 
-    void startLocation();
+    void setLocationListener(OnLocationListener listener);
+
+    void startLocation(LocOption option);
 
     void stopLocation();
 
