@@ -12,8 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core_amap" />
+            <option value="$PROJECT_DIR$/location-amap" />
+            <option value="$PROJECT_DIR$/location-core" />
           </set>
         </option>
       </GradleProjectSettings>
