@@ -26,7 +26,10 @@ QLocation 定位小工具。API简洁易上手，只需5分钟即可实现一个
 
 ```groovy
 dependencies {
-  implementation 'com.github.qinweiforandroid:QLocation:1.0.1030'
+    //核心库
+    implementation 'com.github.qinweiforandroid.QLocation:location-core:1.0.1030'
+    //高德地图实现
+    implementation 'com.github.qinweiforandroid.QLocation:location-amap:1.0.1030'
 }
 ```
 
